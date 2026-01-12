@@ -1,4 +1,479 @@
 {
-    "last-updated": "1970-01-01T00:00:00+00:00",
-    "images": {}
+    "last-updated": "2026-01-12T17:13:43+00:00",
+    "images": {
+        "8.4": {
+            "isRC": false,
+            "maxPHPVersion": "8.4.16",
+            "os": [
+                {
+                    "id": "trixie",
+                    "default": true
+                },
+                {
+                    "id": "bookworm"
+                },
+                {
+                    "id": "alpine3.23",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.22"
+                },
+                {
+                    "id": "alpine3.21",
+                    "phpVersion": "8.4.15"
+                },
+                {
+                    "id": "bullseye",
+                    "phpVersion": "8.4.11"
+                },
+                {
+                    "id": "alpine3.20",
+                    "phpVersion": "8.4.8"
+                },
+                {
+                    "id": "alpine3.19",
+                    "phpVersion": "8.4.1"
+                }
+            ]
+        },
+        "8.5": {
+            "isRC": false,
+            "maxPHPVersion": "8.5.1",
+            "os": [
+                {
+                    "id": "alpine3.22"
+                },
+                {
+                    "id": "alpine3.23",
+                    "default": true
+                },
+                {
+                    "id": "trixie",
+                    "default": true
+                },
+                {
+                    "id": "bookworm"
+                },
+                {
+                    "id": "alpine3.21",
+                    "phpVersion": "8.5.0"
+                }
+            ]
+        },
+        "8.2": {
+            "isRC": false,
+            "maxPHPVersion": "8.2.30",
+            "os": [
+                {
+                    "id": "bookworm"
+                },
+                {
+                    "id": "alpine3.23",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.22"
+                },
+                {
+                    "id": "trixie",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.21",
+                    "phpVersion": "8.2.29"
+                },
+                {
+                    "id": "bullseye",
+                    "phpVersion": "8.2.29"
+                },
+                {
+                    "id": "alpine3.20",
+                    "phpVersion": "8.2.28"
+                },
+                {
+                    "id": "alpine3.19",
+                    "phpVersion": "8.2.26"
+                },
+                {
+                    "id": "alpine3.18",
+                    "phpVersion": "8.2.19"
+                },
+                {
+                    "id": "alpine3.17",
+                    "phpVersion": "8.2.13"
+                },
+                {
+                    "id": "buster",
+                    "phpVersion": "8.2.7"
+                },
+                {
+                    "id": "alpine3.16",
+                    "phpVersion": "8.2.5"
+                }
+            ]
+        },
+        "8.3": {
+            "isRC": false,
+            "maxPHPVersion": "8.3.29",
+            "os": [
+                {
+                    "id": "bookworm"
+                },
+                {
+                    "id": "trixie",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.23",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.22"
+                },
+                {
+                    "id": "alpine3.21",
+                    "phpVersion": "8.3.28"
+                },
+                {
+                    "id": "bullseye",
+                    "phpVersion": "8.3.24"
+                },
+                {
+                    "id": "alpine3.20",
+                    "phpVersion": "8.3.22"
+                },
+                {
+                    "id": "alpine3.19",
+                    "phpVersion": "8.3.14"
+                },
+                {
+                    "id": "alpine3.18",
+                    "phpVersion": "8.3.7"
+                },
+                {
+                    "id": "alpine3.17",
+                    "phpVersion": "8.3.0"
+                }
+            ]
+        },
+        "8.1": {
+            "isRC": false,
+            "maxPHPVersion": "8.1.34",
+            "os": [
+                {
+                    "id": "trixie",
+                    "default": true
+                },
+                {
+                    "id": "bookworm"
+                },
+                {
+                    "id": "alpine3.21",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.22"
+                },
+                {
+                    "id": "bullseye",
+                    "phpVersion": "8.1.33"
+                },
+                {
+                    "id": "alpine3.20",
+                    "phpVersion": "8.1.32"
+                },
+                {
+                    "id": "alpine3.19",
+                    "phpVersion": "8.1.31"
+                },
+                {
+                    "id": "alpine3.18",
+                    "phpVersion": "8.1.28"
+                },
+                {
+                    "id": "alpine3.17",
+                    "phpVersion": "8.1.26"
+                },
+                {
+                    "id": "alpine3.16",
+                    "phpVersion": "8.1.26"
+                },
+                {
+                    "id": "buster",
+                    "phpVersion": "8.1.20"
+                },
+                {
+                    "id": "alpine3.15",
+                    "phpVersion": "8.1.13"
+                },
+                {
+                    "id": "alpine3.14",
+                    "phpVersion": "8.1.6"
+                }
+            ]
+        },
+        "8.0": {
+            "isRC": false,
+            "maxPHPVersion": "8.0.30",
+            "os": [
+                {
+                    "id": "bullseye",
+                    "default": true
+                },
+                {
+                    "id": "buster"
+                },
+                {
+                    "id": "alpine3.16",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.15",
+                    "phpVersion": "8.0.26"
+                },
+                {
+                    "id": "alpine3.14",
+                    "phpVersion": "8.0.19"
+                },
+                {
+                    "id": "alpine3.13",
+                    "phpVersion": "8.0.13"
+                },
+                {
+                    "id": "alpine3.12",
+                    "phpVersion": "8.0.7"
+                }
+            ]
+        },
+        "7.4": {
+            "isRC": false,
+            "maxPHPVersion": "7.4.33",
+            "os": [
+                {
+                    "id": "bullseye",
+                    "default": true
+                },
+                {
+                    "id": "buster"
+                },
+                {
+                    "id": "alpine3.16",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.15"
+                },
+                {
+                    "id": "alpine3.14",
+                    "phpVersion": "7.4.29"
+                },
+                {
+                    "id": "alpine3.13",
+                    "phpVersion": "7.4.26"
+                },
+                {
+                    "id": "alpine3.12",
+                    "phpVersion": "7.4.20"
+                },
+                {
+                    "id": "alpine3.11",
+                    "phpVersion": "7.4.14"
+                },
+                {
+                    "id": "alpine3.10",
+                    "phpVersion": "7.4.6"
+                }
+            ]
+        },
+        "7.3": {
+            "isRC": false,
+            "maxPHPVersion": "7.3.33",
+            "os": [
+                {
+                    "id": "alpine3.14"
+                },
+                {
+                    "id": "buster"
+                },
+                {
+                    "id": "bullseye",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.15",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.13"
+                },
+                {
+                    "id": "stretch",
+                    "phpVersion": "7.3.29"
+                },
+                {
+                    "id": "alpine3.12",
+                    "phpVersion": "7.3.28"
+                },
+                {
+                    "id": "alpine3.11",
+                    "phpVersion": "7.3.26"
+                },
+                {
+                    "id": "alpine3.10",
+                    "phpVersion": "7.3.18"
+                },
+                {
+                    "id": "alpine3.9",
+                    "phpVersion": "7.3.13"
+                },
+                {
+                    "id": "alpine3.8",
+                    "phpVersion": "7.3.6"
+                }
+            ]
+        },
+        "7.2": {
+            "isRC": false,
+            "maxPHPVersion": "7.2.34",
+            "os": [
+                {
+                    "id": "alpine3.12",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.11"
+                },
+                {
+                    "id": "buster",
+                    "default": true
+                },
+                {
+                    "id": "stretch"
+                },
+                {
+                    "id": "alpine3.10",
+                    "phpVersion": "7.2.31"
+                },
+                {
+                    "id": "alpine3.9",
+                    "phpVersion": "7.2.26"
+                },
+                {
+                    "id": "alpine3.8",
+                    "phpVersion": "7.2.19"
+                },
+                {
+                    "id": "alpine3.6",
+                    "phpVersion": "7.2.11"
+                },
+                {
+                    "id": "alpine3.7",
+                    "phpVersion": "7.2.11"
+                }
+            ]
+        },
+        "7.1": {
+            "isRC": false,
+            "maxPHPVersion": "7.1.33",
+            "os": [
+                {
+                    "id": "stretch"
+                },
+                {
+                    "id": "buster",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.9"
+                },
+                {
+                    "id": "alpine3.10",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.8",
+                    "phpVersion": "7.1.30"
+                },
+                {
+                    "id": "jessie",
+                    "phpVersion": "7.1.30"
+                },
+                {
+                    "id": "alpine3.7",
+                    "phpVersion": "7.1.23"
+                },
+                {
+                    "id": "alpine3.4",
+                    "phpVersion": "7.1.17"
+                }
+            ]
+        },
+        "5.6": {
+            "isRC": false,
+            "maxPHPVersion": "5.6.40",
+            "os": [
+                {
+                    "id": "alpine3.8",
+                    "default": true
+                },
+                {
+                    "id": "stretch",
+                    "default": true
+                },
+                {
+                    "id": "jessie"
+                },
+                {
+                    "id": "alpine3.7",
+                    "phpVersion": "5.6.38"
+                },
+                {
+                    "id": "alpine3.4",
+                    "phpVersion": "5.6.36"
+                }
+            ]
+        },
+        "7.0": {
+            "isRC": false,
+            "maxPHPVersion": "7.0.33",
+            "os": [
+                {
+                    "id": "jessie"
+                },
+                {
+                    "id": "stretch",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.7",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.4",
+                    "phpVersion": "7.0.30"
+                }
+            ]
+        },
+        "5.4": {
+            "isRC": false,
+            "maxPHPVersion": "5.4.45",
+            "os": [
+                {
+                    "id": "jessie",
+                    "default": true
+                }
+            ]
+        },
+        "5.3": {
+            "isRC": false,
+            "maxPHPVersion": "5.3.29",
+            "os": [
+                {
+                    "id": "jessie",
+                    "default": true
+                }
+            ]
+        }
+    }
 }
