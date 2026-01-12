@@ -1,0 +1,154 @@
+{
+  "generated_at": "2026-01-12T08:29:16Z",
+  "php_versions": {
+    "8.1.33": {
+      "os_versions": [
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.1.34": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.1": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.2.29": {
+      "os_versions": [
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.2.30": {
+      "os_versions": [
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.2": {
+      "os_versions": [
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.3.26": {
+      "os_versions": [
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.3.27": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.3.28": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.3.29": {
+      "os_versions": [
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.3": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.4.13": {
+      "os_versions": [
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.4.14": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.4.15": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.4.16": {
+      "os_versions": [
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.4": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.5.0": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.5.1": {
+      "os_versions": [
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  },
+    "8.5": {
+      "os_versions": [
+        "Alpine 3.21",
+        "Alpine 3.22",
+        "Alpine 3.23",
+        "Debian 12 (Bookworm)",
+        "Debian 13 (Trixie)"
+    ]
+  }
+  }
+}

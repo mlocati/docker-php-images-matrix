@@ -1,0 +1,97 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/bootstrap.php';
+
+const README_FILE = ROOT_DIR . '/README.md';
+const PLACEHOLDER_START = '<!-- START OF DOCKER IMAGE MATRIX -->';
+const PLACEHOLDER_END = '<!-- END OF DOCKER IMAGE MATRIX -->';
+
+function buildTable(): string
+{
+    $table  = "| PHP Version | OS Versions |\n";
+    $table .= "|:---:|:---|\n";
+    $imageList = PHPImageList::loadFromDataFile();
+    $byMajorMinor = [];
+    foreach ($imageList->getImages() as $image) {
+        $version = $image->phpMajorMinorVersion;
+        if (!isset($byMajorMinor[$version])) {
+            $byMajorMinor[$version] = [
+                'maxPHPVersion' => null,
+                'images' => [],
+            ];
+        }
+        if ($byMajorMinor[$version]['maxPHPVersion'] === null || version_compare($image->phpVersion, $byMajorMinor[$version]['maxPHPVersion']) > 0) {
+            $byMajorMinor[$version]['maxPHPVersion'] = $image->phpVersion;
+        }
+        $byMajorMinor[$version]['images'][] = $image;
+    }
+
+    uksort(
+        $byMajorMinor,
+        static fn(string $a, string $b): int => version_compare($b, $a),
+    );
+    foreach ($byMajorMinor as $phpMajorMinorVersion => &$versionInfo) {
+        $row = "| {$phpMajorMinorVersion}";
+        if ($versionInfo['images'][0]->isRC) {
+            $row .= '<br />(RC)';
+        } else {
+            $row .= "<br />(last: {$versionInfo['maxPHPVersion']})";
+        }
+        $row .= ' | ';
+        usort(
+            $versionInfo['images'],
+            static function (PHPImage $a, PHPImage $b): int {
+                $aIsAlpine = $a instanceof AlpinePHPImage;
+                $bIsAlpine = $b instanceof AlpinePHPImage;
+                if ($aIsAlpine !== $bIsAlpine) {
+                    return $aIsAlpine ? 1 : -1;
+                }
+                if ($aIsAlpine) {
+                    return version_compare($a->version, $b->version);
+                }
+                $aDebian = DebianVersion::getData($a->version);
+                $bDebian = DebianVersion::getData($b->version);
+                return $aDebian->id <=> $bDebian->id;
+            },
+        );
+        $osList = array_map(
+            static function (PHPImage $image) use ($versionInfo): string {
+                $result = $image->os;
+                if ($image->isDefaultForMajorMinor) {
+                    $result .= '[*](#is-default-legend)';
+                } else {
+                }
+                if ($image->phpVersion !== $versionInfo['maxPHPVersion']) {
+                    $result .= " (stuck at {$image->phpVersion})";
+                }
+                return $result;
+            },
+            $versionInfo['images'],
+        );
+        $row .= '<ul><li>' . implode('</li><li>', $osList) . '</li></ul>';
+        $row .= " |\n";
+        $table .= $row;
+    }
+    $table .= "\nLast updated: " . $imageList->lastUpdated->format('Y-m-d H:i:s e') . "\n";
+
+    return $table;
+}
+$readme = file_get_contents(README_FILE);
+$readmeStart = strpos($readme, PLACEHOLDER_START);
+if ($readmeStart === false) {
+    throw new RuntimeException('Could not find start placeholder in README.md');
+}
+$readmeEnd = strpos($readme, PLACEHOLDER_END);
+if ($readmeEnd === false) {
+    throw new RuntimeException('Could not find end placeholder in README.md');
+}
+if ($readmeEnd < $readmeStart) {
+    throw new RuntimeException('End placeholder found before start placeholder in README.md');
+}
+$table = buildTable();
+$newReadme = rtrim(substr($readme, 0, $readmeStart + strlen(PLACEHOLDER_START))) . "\n" . $table . ltrim(substr($readme, $readmeEnd));
+file_put_contents(README_FILE, $newReadme);
+echo "README.md updated successfully.\n";

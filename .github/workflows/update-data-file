@@ -1,0 +1,152 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/bootstrap.php';
+
+const API_URL = 'https://registry.hub.docker.com/v2/repositories/library/php/tags?page={page}&page_size={page_size}';
+const PAGE_SIZE = 100;
+
+class PageData
+{
+    private function __construct(
+        /** Total number of results available across all pages */
+        public readonly int $count,
+        /** Link to next page of results if any */
+        public readonly string $next,
+        /** Array of PageDataItem */
+        public readonly array $results = [],
+    ) {}
+
+    public static function createEmpty(): self
+    {
+        return new self(0, '', []);
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['count'],
+            $data['next'] ?? '',
+            array_filter(
+                array_map(
+                    static fn(array $item): ?PHPImage => PHPImage::fromArray($item),
+                    $data['results'] ?? [],
+                ),
+                static fn(?PHPImage $item): bool => $item !== null,
+            ),
+        );
+    }
+}
+
+function fetchPage(string $url): PageData
+{
+    echo "Fetching page: {$url}\n";
+    http_clear_last_response_headers();
+    set_error_handler(static function (): void {}, -1);
+    try {
+        $contents = file_get_contents($url);
+    } finally {
+        restore_error_handler();
+    }
+    if ($contents === false) {
+        $headers = http_get_last_response_headers();
+        if (preg_match('#HTTP/\d+\.\d+\s+404\s+#', $headers[0] ?? '')) {
+            return PageData::createEmpty();
+        }
+        if (preg_match('#HTTP/\d+\.\d+\s+429\s+#', $headers[0] ?? '')) {
+            throw new RuntimeException("Rate limit exceeded when fetching {$url}");
+        }
+    }
+    $data = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+
+    return PageData::fromArray($data);
+}
+
+/**
+ * @return Generator<PHPImage>
+ */
+function listItems(): Generator
+{
+    $url = strtr(API_URL, ['{page_size}' => PAGE_SIZE, '{page}' => 1]);
+    $parsedItems = 0;
+    $totalItems = null;
+    do {
+        $page = fetchPage($url);
+        foreach ($page->results as $item) {
+            yield $item;
+        }
+        $parsedItems += PAGE_SIZE;
+        $totalItems ??= $page->count;
+        $url = $page->next;
+    } while ($url && $parsedItems < $totalItems);
+}
+
+function saveDataFile(array $data): void
+{
+    $data['last-updated'] = $data['last-updated']->format(DateTimeInterface::ATOM);
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    file_put_contents(DATA_FILE, $json);
+}
+
+function getOSVersion(string $phpMajorMinorVersion, bool $alpine): string|int
+{
+    $dockerImage = "php:{$phpMajorMinorVersion}-cli";
+    if ($alpine) {
+        $dockerImage .= '-alpine';
+    }
+    $output = [];
+    $rc = -1;
+    exec("docker pull {$dockerImage} 2>&1", $output, $rc);
+    if ($rc !== 0) {
+        throw new RuntimeException("Failed to pull Docker image: {$dockerImage}: " . implode("\n", $output));
+    }
+    exec("docker run --rm -t {$dockerImage} cat /etc/os-release 2>&1", $output, $rc);
+    if ($rc !== 0) {
+        throw new RuntimeException("Failed to get OS version from Docker image: {$dockerImage}: " . implode("\n", $output));
+    }
+    foreach ($output as $line) {
+        if (!str_starts_with($line, 'VERSION_ID=')) {
+            continue;
+        }
+        $version = trim(substr($line, strlen('VERSION_ID=')), '"\'');
+        if ($alpine) {
+            if (preg_match('/^(?<version>\d+\.\d+)/', $version, $matches)) {
+                $version = $matches['version'];
+            }
+            return $version;
+        }
+        return (int) $version;
+    }
+    throw new RuntimeException("Could not determine OS version from Docker image: {$dockerImage}");
+}
+$imageList = PHPImageList::loadFromDataFile();
+$previousLastUpdated = $imageList->lastUpdated;
+$checkLast = [];
+foreach (listItems() as $li) {
+    $imageList->add($li);
+    if (!in_array($li->phpMajorMinorVersion, $checkLast, true)) {
+        $checkLast[] = $li->phpMajorMinorVersion;
+    }
+    $deltaTime = $li->lastUpdated->getTimestamp() - $previousLastUpdated->getTimestamp();
+    if ($deltaTime < -60 * 60 * 24 * 30 /* 30 days */) {
+        break;
+    }
+}
+usort($checkLast, 'version_compare');
+foreach ($checkLast as $phpMajorMinorVersion) {
+    if (version_compare($phpMajorMinorVersion, '5.6', '<')) {
+        // Old versions no longer works correctly with Docker Hub API
+        continue;
+    }
+    echo "Setting default Debian version for PHP {$phpMajorMinorVersion}\n";
+    $version = getOSVersion($phpMajorMinorVersion, false);
+    $imageList->setDefaultDebianVersion($phpMajorMinorVersion, $version);
+    echo "Setting default Alpine version for PHP {$phpMajorMinorVersion}\n";
+    $version = getOSVersion($phpMajorMinorVersion, true);
+    $imageList->setDefaultAlpineVersion($phpMajorMinorVersion, $version);
+}
+$imageList->lastUpdated = (new DateTimeImmutable('now'))->setTimezone(new DateTimeZone('UTC'));
+$imageList->saveToDataFile();
+echo "Data file updated successfully.\n";
