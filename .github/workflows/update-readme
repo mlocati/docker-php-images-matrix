@@ -76,7 +76,7 @@ function buildTable(): string
         $table .= $row;
     }
     $table .= "\n";
-    $table .= 'Last updated: <relative-time datetime="' . $imageList->lastUpdated->format(DateTimeInterface::ATOM) . '" format="relative" threshold="PT1H" format-style="long">' . $imageList->lastUpdated->format('Y-m-d H:i:s e') . "</relative-time>\n";
+    $table .= 'Last updated: <time datetime="' . $imageList->lastUpdated->format(DateTimeInterface::ATOM) . '">' . $imageList->lastUpdated->format('Y-m-d H:i:s e') . "</time>\n";
 
     return $table;
 }
