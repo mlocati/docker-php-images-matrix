@@ -15,9 +15,12 @@ return (new Config())
     ])
     ->setFinder(
         (new Finder())
-            ->in(__DIR__ . '/.github/workflows')
+            ->in(__DIR__)
             ->append([
                 __FILE__,
+                __DIR__ . '/.github/workflows/bootstrap.php',
+                __DIR__ . '/.github/workflows/update-data-file',
+                __DIR__ . '/.github/workflows/update-readme',
             ]),
     )
 ;
