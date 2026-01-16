@@ -1,9 +1,9 @@
 {
-    "last-updated": "2026-01-15T08:24:51+00:00",
+    "last-updated": "2026-01-16T08:22:57+00:00",
     "images": {
         "8.4": {
             "isRC": false,
-            "maxPHPVersion": "8.4.16",
+            "maxPHPVersion": "8.4.17",
             "os": [
                 {
                     "id": "trixie",
