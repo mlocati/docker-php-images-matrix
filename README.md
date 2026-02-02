@@ -22,7 +22,7 @@ List of docker images and corresponding OS versions available on Docker Hub.
 | 5.4<br />(last: 5.4.45) | <ul><li>jessie[*](#is-default-legend)</li></ul> |
 | 5.3<br />(last: 5.3.29) | <ul><li>jessie[*](#is-default-legend)</li></ul> |
 
-Last updated: <time datetime="2026-02-01T08:26:23+00:00">2026-02-01 08:26:23 +00:00</time>
+Last updated: <time datetime="2026-02-02T08:37:08+00:00">2026-02-02 08:37:08 +00:00</time>
 <!-- END OF DOCKER IMAGE MATRIX -->
 
 > [!NOTE]
