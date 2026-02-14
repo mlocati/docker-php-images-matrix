@@ -1,9 +1,9 @@
 {
-    "last-updated": "2026-02-13T08:36:49+00:00",
+    "last-updated": "2026-02-14T08:25:24+00:00",
     "images": {
         "8.4": {
             "isRC": false,
-            "maxPHPVersion": "8.4.17",
+            "maxPHPVersion": "8.4.18",
             "os": [
                 {
                     "id": "trixie",
@@ -39,7 +39,7 @@
         },
         "8.5": {
             "isRC": false,
-            "maxPHPVersion": "8.5.2",
+            "maxPHPVersion": "8.5.3",
             "os": [
                 {
                     "id": "alpine3.22"
