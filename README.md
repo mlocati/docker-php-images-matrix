@@ -19,10 +19,10 @@ List of docker images and corresponding OS versions available on Docker Hub.
 | 7.1<br />(last: 7.1.33) | <ul><li>jessie (stuck at 7.1.30)</li><li>stretch</li><li>buster[*](#is-default-legend)</li></ul> |<ul><li>alpine3.4 (stuck at 7.1.17)</li><li>alpine3.7 (stuck at 7.1.23)</li><li>alpine3.8 (stuck at 7.1.30)</li><li>alpine3.9</li><li>alpine3.10[*](#is-default-legend)</li></ul> |
 | 7.0<br />(last: 7.0.33) | <ul><li>jessie</li><li>stretch[*](#is-default-legend)</li></ul> |<ul><li>alpine3.4 (stuck at 7.0.30)</li><li>alpine3.7[*](#is-default-legend)</li></ul> |
 | 5.6<br />(last: 5.6.40) | <ul><li>jessie</li><li>stretch[*](#is-default-legend)</li></ul> |<ul><li>alpine3.4 (stuck at 5.6.36)</li><li>alpine3.7 (stuck at 5.6.38)</li><li>alpine3.8[*](#is-default-legend)</li></ul> |
-| 5.4<br />(last: 5.4.45) | <ul><li>jessie[*](#is-default-legend)</li></ul> |<ul><li></li></ul> |
-| 5.3<br />(last: 5.3.29) | <ul><li>jessie[*](#is-default-legend)</li></ul> |<ul><li></li></ul> |
+| 5.4<br />(last: 5.4.45) | <ul><li>jessie[*](#is-default-legend)</li></ul> |*n/a* |
+| 5.3<br />(last: 5.3.29) | <ul><li>jessie[*](#is-default-legend)</li></ul> |*n/a* |
 
-Last updated: <time datetime="2026-03-19T11:35:03+00:00">2026-03-19 11:35:03 +00:00</time>
+Last updated: <time datetime="2026-03-19T11:48:41+00:00">2026-03-19 11:48:41 +00:00</time>
 <!-- END OF DOCKER IMAGE MATRIX -->
 
 > [!NOTE]
