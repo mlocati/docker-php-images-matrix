@@ -75,20 +75,24 @@ function buildTable(): string
         }
         $row .= ' | ';
         foreach ([$debianImages, $alpineImages] as $images) {
-            $osList = array_map(
-                static function (PHPImage $image) use ($versionInfo): string {
-                    $result = $image->os;
-                    if ($image->isDefaultForMajorMinor) {
-                        $result .= '[*](#is-default-legend)';
-                    }
-                    if ($image->phpVersion !== $versionInfo['maxPHPVersion']) {
-                        $result .= " (stuck at {$image->phpVersion})";
-                    }
-                    return $result;
-                },
-                $images,
-            );
-            $row .= '<ul><li>' . implode('</li><li>', $osList) . '</li></ul>';
+            if ($images === []) {
+                $row .= '*n/a*';
+            } else {
+                $osList = array_map(
+                    static function (PHPImage $image) use ($versionInfo): string {
+                        $result = $image->os;
+                        if ($image->isDefaultForMajorMinor) {
+                            $result .= '[*](#is-default-legend)';
+                        }
+                        if ($image->phpVersion !== $versionInfo['maxPHPVersion']) {
+                            $result .= " (stuck at {$image->phpVersion})";
+                        }
+                        return $result;
+                    },
+                    $images,
+                );
+                $row .= '<ul><li>' . implode('</li><li>', $osList) . '</li></ul>';
+            }
             $row .= ' |';
         }
         $table .= $row . "\n";
