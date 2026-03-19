@@ -13,7 +13,7 @@ const ROOT_DIR = __DIR__ . '/../..';
 const DATA_FILE = ROOT_DIR . '/data/data.json';
 
 #[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
-class DebianVersionData
+class DebianVersionInfo
 {
     public function __construct(
         public readonly int $id,
@@ -23,29 +23,29 @@ class DebianVersionData
 
 enum DebianVersion
 {
-    #[DebianVersionData(8, 'jessie')]
+    #[DebianVersionInfo(8, 'jessie')]
     case Jessie;
-    #[DebianVersionData(9, 'stretch')]
+    #[DebianVersionInfo(9, 'stretch')]
     case Stretch;
-    #[DebianVersionData(10, 'buster')]
+    #[DebianVersionInfo(10, 'buster')]
     case Buster;
-    #[DebianVersionData(11, 'bullseye')]
+    #[DebianVersionInfo(11, 'bullseye')]
     case Bullseye;
-    #[DebianVersionData(12, 'bookworm')]
+    #[DebianVersionInfo(12, 'bookworm')]
     case Bookworm;
-    #[DebianVersionData(13, 'trixie')]
+    #[DebianVersionInfo(13, 'trixie')]
     case Trixie;
-    #[DebianVersionData(14, 'forky')]
+    #[DebianVersionInfo(14, 'forky')]
     case Forky;
-    #[DebianVersionData(15, 'duke')]
+    #[DebianVersionInfo(15, 'duke')]
     case Duke;
 
-    public static function getData(self $case): DebianVersionData
+    public static function getInfo(self $case): DebianVersionInfo
     {
         static $cache = [];
         if (!isset($cache[$case->name])) {
             $reflection = new ReflectionEnumUnitCase($case::class, $case->name);
-            $cache[$case->name] = $reflection->getAttributes('DebianVersionData')[0]->newInstance();
+            $cache[$case->name] = $reflection->getAttributes('DebianVersionInfo')[0]->newInstance();
         }
         return $cache[$case->name];
     }
@@ -53,7 +53,7 @@ enum DebianVersion
     public static function fromCodename(string $codename): ?self
     {
         foreach (self::cases() as $case) {
-            $data = self::getData($case);
+            $data = self::getInfo($case);
             if ($data->codename === $codename) {
                 return $case;
             }
@@ -102,7 +102,7 @@ abstract class PHPImage
         }
         if ($rxOSVersion === null) {
             $debianCodenames = array_map(
-                static fn(DebianVersion $version): string => DebianVersion::getData($version)->codename,
+                static fn(DebianVersion $version): string => DebianVersion::getInfo($version)->codename,
                 DebianVersion::cases(),
             );
             $rxDebian = '-(?<debianVersion>' . implode('|', array_map(
@@ -137,6 +137,7 @@ abstract class PHPImage
 
 class DebianPHPImage extends PHPImage
 {
+    public readonly DebianVersionInfo $versionInfo;
     public function __construct(
         string $phpVersion,
         bool $isRC,
@@ -144,17 +145,18 @@ class DebianPHPImage extends PHPImage
         public readonly DebianVersion $version,
         bool $isDefaultForMajorMinor,
     ) {
+        $this->versionInfo = DebianVersion::getInfo($version);
         parent::__construct(
             $phpVersion,
             $isRC,
             $lastUpdated,
-            DebianVersion::getData($version)->codename,
+            $this->versionInfo->codename,
             $isDefaultForMajorMinor,
         );
     }
     public function __toString(): string
     {
-        return $this->phpMajorMinorVersion . ($this->isRC ? '-rc' : '') . '-' . DebianVersion::getData($this->version)->codename;
+        return $this->phpMajorMinorVersion . ($this->isRC ? '-rc' : '') . '-' . $this->versionInfo->codename;
     }
 }
 
@@ -336,8 +338,7 @@ class PHPImageList implements JsonSerializable
             ) {
                 continue;
             }
-            $versionInfo = DebianVersion::getData($image->version);
-            if ($versionInfo->id === $debianVersion) {
+            if ($image->versionInfo->id === $debianVersion) {
                 $found = true;
                 $image->isDefaultForMajorMinor = true;
             } else {
