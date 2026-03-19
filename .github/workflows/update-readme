@@ -11,8 +11,8 @@ const PLACEHOLDER_END = '<!-- END OF DOCKER IMAGE MATRIX -->';
 
 function buildTable(): string
 {
-    $table  = "| PHP Version | OS Versions |\n";
-    $table .= "|:---:|:---|\n";
+    $table  = "| PHP Version | Debian | Alpine |\n";
+    $table .= "|:---|:---|:---|\n";
     $imageList = PHPImageList::loadFromDataFile();
     $byMajorMinor = [];
     foreach ($imageList->getImages() as $image) {
@@ -34,6 +34,39 @@ function buildTable(): string
         static fn(string $a, string $b): int => version_compare($b, $a),
     );
     foreach ($byMajorMinor as $phpMajorMinorVersion => &$versionInfo) {
+        $debianImages = array_filter(
+            $versionInfo['images'],
+            static function (PHPImage $image): bool {
+                return $image instanceof DebianPHPImage;
+            },
+        );
+        usort(
+            $debianImages,
+            static fn(DebianPHPImage $a, DebianPHPImage $b): int => $a->versionInfo->id <=> $b->versionInfo->id,
+        );
+        $alpineImages = array_filter(
+            $versionInfo['images'],
+            static function (PHPImage $image): bool {
+                return $image instanceof AlpinePHPImage;
+            },
+        );
+        usort(
+            $alpineImages,
+            static fn(AlpinePHPImage $a, AlpinePHPImage $b): int => version_compare($a->version, $b->version),
+        );
+        $unknownImages = array_diff($versionInfo['images'], $debianImages, $alpineImages);
+        if ($unknownImages !== []) {
+            throw new RuntimeException(
+                "Found images that are neither Debian nor Alpine:\n- "
+                . implode(
+                    "\n- ",
+                    array_map(
+                        static fn(PHPImage $image): string => "{$image->os}, {$image->phpVersion}",
+                        $unknownImages,
+                    ),
+                ),
+            );
+        }
         $row = "| {$phpMajorMinorVersion}";
         if ($versionInfo['images'][0]->isRC) {
             $row .= '<br />(RC)';
@@ -41,39 +74,24 @@ function buildTable(): string
             $row .= "<br />(last: {$versionInfo['maxPHPVersion']})";
         }
         $row .= ' | ';
-        usort(
-            $versionInfo['images'],
-            static function (PHPImage $a, PHPImage $b): int {
-                $aIsAlpine = $a instanceof AlpinePHPImage;
-                $bIsAlpine = $b instanceof AlpinePHPImage;
-                if ($aIsAlpine !== $bIsAlpine) {
-                    return $aIsAlpine ? 1 : -1;
-                }
-                if ($aIsAlpine) {
-                    return version_compare($a->version, $b->version);
-                }
-                $aDebian = DebianVersion::getData($a->version);
-                $bDebian = DebianVersion::getData($b->version);
-                return $aDebian->id <=> $bDebian->id;
-            },
-        );
-        $osList = array_map(
-            static function (PHPImage $image) use ($versionInfo): string {
-                $result = $image->os;
-                if ($image->isDefaultForMajorMinor) {
-                    $result .= '[*](#is-default-legend)';
-                } else {
-                }
-                if ($image->phpVersion !== $versionInfo['maxPHPVersion']) {
-                    $result .= " (stuck at {$image->phpVersion})";
-                }
-                return $result;
-            },
-            $versionInfo['images'],
-        );
-        $row .= '<ul><li>' . implode('</li><li>', $osList) . '</li></ul>';
-        $row .= " |\n";
-        $table .= $row;
+        foreach ([$debianImages, $alpineImages] as $images) {
+            $osList = array_map(
+                static function (PHPImage $image) use ($versionInfo): string {
+                    $result = $image->os;
+                    if ($image->isDefaultForMajorMinor) {
+                        $result .= '[*](#is-default-legend)';
+                    }
+                    if ($image->phpVersion !== $versionInfo['maxPHPVersion']) {
+                        $result .= " (stuck at {$image->phpVersion})";
+                    }
+                    return $result;
+                },
+                $images,
+            );
+            $row .= '<ul><li>' . implode('</li><li>', $osList) . '</li></ul>';
+            $row .= ' |';
+        }
+        $table .= $row . "\n";
     }
     $table .= "\n";
     $table .= 'Last updated: <time datetime="' . $imageList->lastUpdated->format(DateTimeInterface::ATOM) . '">' . $imageList->lastUpdated->format('Y-m-d H:i:s e') . "</time>\n";
