@@ -7,7 +7,7 @@ List of docker images and corresponding OS versions available on Docker Hub.
 <!-- START OF DOCKER IMAGE MATRIX -->
 | PHP Version | Debian | Alpine |
 |:---|:---|:---|
-| 8.5<br />(last: 8.5.5) | <ul><li>bookworm</li><li>trixie[*](#is-default-legend)</li></ul> |<ul><li>alpine3.21 (stuck at 8.5.0)</li><li>alpine3.22</li><li>alpine3.23[*](#is-default-legend)</li></ul> |
+| 8.5<br />(last: 8.5.6) | <ul><li>bookworm</li><li>trixie[*](#is-default-legend)</li></ul> |<ul><li>alpine3.21 (stuck at 8.5.0)</li><li>alpine3.22</li><li>alpine3.23[*](#is-default-legend)</li></ul> |
 | 8.4<br />(last: 8.4.21) | <ul><li>bullseye (stuck at 8.4.11)</li><li>bookworm</li><li>trixie[*](#is-default-legend)</li></ul> |<ul><li>alpine3.19 (stuck at 8.4.1)</li><li>alpine3.20 (stuck at 8.4.8)</li><li>alpine3.21 (stuck at 8.4.15)</li><li>alpine3.22</li><li>alpine3.23[*](#is-default-legend)</li></ul> |
 | 8.3<br />(last: 8.3.31) | <ul><li>bullseye (stuck at 8.3.24)</li><li>bookworm</li><li>trixie[*](#is-default-legend)</li></ul> |<ul><li>alpine3.17 (stuck at 8.3.0)</li><li>alpine3.18 (stuck at 8.3.7)</li><li>alpine3.19 (stuck at 8.3.14)</li><li>alpine3.20 (stuck at 8.3.22)</li><li>alpine3.21 (stuck at 8.3.28)</li><li>alpine3.22</li><li>alpine3.23[*](#is-default-legend)</li></ul> |
 | 8.2<br />(last: 8.2.31) | <ul><li>buster (stuck at 8.2.7)</li><li>bullseye (stuck at 8.2.29)</li><li>bookworm</li><li>trixie[*](#is-default-legend)</li></ul> |<ul><li>alpine3.16 (stuck at 8.2.5)</li><li>alpine3.17 (stuck at 8.2.13)</li><li>alpine3.18 (stuck at 8.2.19)</li><li>alpine3.19 (stuck at 8.2.26)</li><li>alpine3.20 (stuck at 8.2.28)</li><li>alpine3.21 (stuck at 8.2.29)</li><li>alpine3.22</li><li>alpine3.23[*](#is-default-legend)</li></ul> |
@@ -22,7 +22,7 @@ List of docker images and corresponding OS versions available on Docker Hub.
 | 5.4<br />(last: 5.4.45) | <ul><li>jessie[*](#is-default-legend)</li></ul> |*n/a* |
 | 5.3<br />(last: 5.3.29) | <ul><li>jessie[*](#is-default-legend)</li></ul> |*n/a* |
 
-Last updated: <time datetime="2026-05-08T09:10:53+00:00">2026-05-08 09:10:53 +00:00</time>
+Last updated: <time datetime="2026-05-09T09:13:14+00:00">2026-05-09 09:13:14 +00:00</time>
 <!-- END OF DOCKER IMAGE MATRIX -->
 
 > [!NOTE]
