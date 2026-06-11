@@ -1,5 +1,5 @@
 {
-    "last-updated": "2026-06-10T11:34:42+00:00",
+    "last-updated": "2026-06-11T05:34:49+00:00",
     "images": {
         "8.4": {
             "isRC": false,
@@ -13,8 +13,7 @@
                     "id": "bookworm"
                 },
                 {
-                    "id": "alpine3.23",
-                    "default": true
+                    "id": "alpine3.23"
                 },
                 {
                     "id": "alpine3.22"
@@ -34,6 +33,10 @@
                 {
                     "id": "alpine3.19",
                     "phpVersion": "8.4.1"
+                },
+                {
+                    "id": "alpine3.24",
+                    "default": true
                 }
             ]
         },
@@ -45,8 +48,7 @@
                     "id": "alpine3.22"
                 },
                 {
-                    "id": "alpine3.23",
-                    "default": true
+                    "id": "alpine3.23"
                 },
                 {
                     "id": "trixie",
@@ -58,6 +60,10 @@
                 {
                     "id": "alpine3.21",
                     "phpVersion": "8.5.0"
+                },
+                {
+                    "id": "alpine3.24",
+                    "default": true
                 }
             ]
         },
@@ -69,8 +75,7 @@
                     "id": "bookworm"
                 },
                 {
-                    "id": "alpine3.23",
-                    "default": true
+                    "id": "alpine3.23"
                 },
                 {
                     "id": "alpine3.22"
@@ -110,6 +115,10 @@
                 {
                     "id": "alpine3.16",
                     "phpVersion": "8.2.5"
+                },
+                {
+                    "id": "alpine3.24",
+                    "default": true
                 }
             ]
         },
@@ -125,8 +134,7 @@
                     "default": true
                 },
                 {
-                    "id": "alpine3.23",
-                    "default": true
+                    "id": "alpine3.23"
                 },
                 {
                     "id": "alpine3.22"
@@ -154,6 +162,10 @@
                 {
                     "id": "alpine3.17",
                     "phpVersion": "8.3.0"
+                },
+                {
+                    "id": "alpine3.24",
+                    "default": true
                 }
             ]
         },
