@@ -30,7 +30,7 @@ jobs:
           coverage: none
       -
         name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       -
         name: Check PHP Coding Style
         run: php-cs-fixer --using-cache=no --diff check

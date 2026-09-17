@@ -64,6 +64,7 @@ function getAccessToken(): string
 
         return $token = '';
     }
+    echo "Docker Hub credentials provided: using authenticated requests\n";
     $context = stream_context_create(['http' => [
         'method' => 'POST',
         'header' => "Content-Type: application/json\r\n",
