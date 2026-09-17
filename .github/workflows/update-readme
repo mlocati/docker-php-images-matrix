@@ -98,7 +98,7 @@ function buildTable(): string
         $table .= $row . "\n";
     }
     $table .= "\n";
-    $table .= 'Last updated: <time datetime="' . $imageList->lastUpdated->format(DateTimeInterface::ATOM) . '">' . $imageList->lastUpdated->format('Y-m-d H:i:s e') . "</time>\n";
+    $table .= 'Last changes: <time datetime="' . $imageList->lastChanges->format(DateTimeInterface::ATOM) . '">' . $imageList->lastChanges->format('Y-m-d H:i:s e') . "</time>\n";
 
     return $table;
 }

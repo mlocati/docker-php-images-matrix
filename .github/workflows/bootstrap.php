@@ -194,7 +194,7 @@ class PHPImageList implements JsonSerializable
     private $phpImages = [];
 
     public function __construct(
-        public DateTimeImmutable $lastUpdated,
+        public DateTimeImmutable $lastChanges,
     ) {}
 
     public function add(PHPImage $phpImage): void
@@ -270,7 +270,7 @@ class PHPImageList implements JsonSerializable
         }
 
         return [
-            'last-updated' => $this->lastUpdated->format(DateTime::ATOM),
+            'last-changes' => $this->lastChanges->format(DateTime::ATOM),
             'images' => $images,
         ];
     }
@@ -283,7 +283,7 @@ class PHPImageList implements JsonSerializable
     private static function fromJSON(string $json): self
     {
         $data = json_decode($json, true, JSON_THROW_ON_ERROR);
-        $instance = new self(new DateTimeImmutable($data['last-updated']));
+        $instance = new self(new DateTimeImmutable($data['last-changes'] ?? $data['last-updated']));
         foreach ($data['images'] as $versionInfo) {
             $isRC = $versionInfo['isRC'];
             $maxPHPVersion = $versionInfo['maxPHPVersion'];
@@ -294,7 +294,7 @@ class PHPImageList implements JsonSerializable
                     $instance->add(new AlpinePHPImage(
                         $phpVersion,
                         $isRC,
-                        $instance->lastUpdated,
+                        $instance->lastChanges,
                         substr($os, strlen('alpine')),
                         $osInfo['default'] ?? false,
                     ));
@@ -302,7 +302,7 @@ class PHPImageList implements JsonSerializable
                     $instance->add(new DebianPHPImage(
                         $phpVersion,
                         $isRC,
-                        $instance->lastUpdated,
+                        $instance->lastChanges,
                         DebianVersion::fromCodename($os),
                         $osInfo['default'] ?? false,
                     ));
