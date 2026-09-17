@@ -147,9 +147,9 @@ function saveDataFile(array $data): void
     file_put_contents(DATA_FILE, $json);
 }
 
-function getOSVersion(string $phpMajorMinorVersion, bool $alpine): string|int
+function getOSVersion(string $phpMajorMinorVersion, bool $isRC, bool $alpine): string|int
 {
-    $dockerImage = "php:{$phpMajorMinorVersion}-cli";
+    $dockerImage = "php:{$phpMajorMinorVersion}" . ($isRC ? '-rc' : '') . '-cli';
     if ($alpine) {
         $dockerImage .= '-alpine';
     }
@@ -197,11 +197,16 @@ foreach ($checkLast as $phpMajorMinorVersion) {
         // Old versions no longer works correctly with Docker Hub API
         continue;
     }
-    echo "Setting default Debian version for PHP {$phpMajorMinorVersion}\n";
-    $version = getOSVersion($phpMajorMinorVersion, false);
+    // If there's no GA image for this PHP version, only the -rc tags are available
+    $isRC = array_filter(
+        $imageList->getImages(),
+        static fn(PHPImage $image): bool => $image->phpMajorMinorVersion === $phpMajorMinorVersion && !$image->isRC,
+    ) === [];
+    echo "Setting default Debian version for PHP {$phpMajorMinorVersion}" . ($isRC ? ' (RC)' : '') . "\n";
+    $version = getOSVersion($phpMajorMinorVersion, $isRC, false);
     $imageList->setDefaultDebianVersion($phpMajorMinorVersion, $version);
-    echo "Setting default Alpine version for PHP {$phpMajorMinorVersion}\n";
-    $version = getOSVersion($phpMajorMinorVersion, true);
+    echo "Setting default Alpine version for PHP {$phpMajorMinorVersion}" . ($isRC ? ' (RC)' : '') . "\n";
+    $version = getOSVersion($phpMajorMinorVersion, $isRC, true);
     $imageList->setDefaultAlpineVersion($phpMajorMinorVersion, $version);
 }
 $imageList->lastUpdated = (new DateTimeImmutable('now'))->setTimezone(new DateTimeZone('UTC'));
