@@ -36,6 +36,9 @@ jobs:
         run: php-cs-fixer --using-cache=no --diff check
       -
         name: Update list of PHP Docker images
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         run: ./.github/workflows/update-data-file
       -
         name: Update README.md

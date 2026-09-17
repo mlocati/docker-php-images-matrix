@@ -6,7 +6,11 @@ declare(strict_types=1);
 require_once __DIR__ . '/bootstrap.php';
 
 const API_URL = 'https://registry.hub.docker.com/v2/repositories/library/php/tags?page={page}&page_size={page_size}';
+const AUTH_URL = 'https://hub.docker.com/v2/auth/token';
+const DEFAULT_DOCKERHUB_USERNAME = 'mlocati';
 const PAGE_SIZE = 100;
+
+class AnonymousPaginationLimitException extends RuntimeException {}
 
 class PageData
 {
@@ -40,13 +44,52 @@ class PageData
     }
 }
 
+/**
+ * Get the Docker Hub access token (empty string if the DOCKERHUB_TOKEN environment variable is not set).
+ * The username is read from the DOCKERHUB_USERNAME environment variable (default: DEFAULT_DOCKERHUB_USERNAME).
+ */
+function getAccessToken(): string
+{
+    static $token = null;
+    if ($token !== null) {
+        return $token;
+    }
+    $username = (string) getenv('DOCKERHUB_USERNAME');
+    if ($username === '') {
+        $username = DEFAULT_DOCKERHUB_USERNAME;
+    }
+    $secret = (string) getenv('DOCKERHUB_TOKEN');
+    if ($secret === '') {
+        echo "Docker Hub credentials not provided: using anonymous requests\n";
+
+        return $token = '';
+    }
+    $context = stream_context_create(['http' => [
+        'method' => 'POST',
+        'header' => "Content-Type: application/json\r\n",
+        'content' => json_encode(['identifier' => $username, 'secret' => $secret], JSON_THROW_ON_ERROR),
+        'ignore_errors' => true,
+    ]]);
+    $contents = file_get_contents(AUTH_URL, false, $context);
+    $data = is_string($contents) ? json_decode($contents, true) : null;
+    if (!is_string($data['access_token'] ?? null) || $data['access_token'] === '') {
+        throw new RuntimeException('Failed to authenticate to Docker Hub: ' . implode("\n", http_get_last_response_headers() ?? []));
+    }
+
+    return $token = $data['access_token'];
+}
+
 function fetchPage(string $url): PageData
 {
     echo "Fetching page: {$url}\n";
+    $token = getAccessToken();
+    $context = stream_context_create(['http' => [
+        'header' => $token === '' ? '' : "Authorization: Bearer {$token}\r\n",
+    ]]);
     http_clear_last_response_headers();
     set_error_handler(static function (): void {}, -1);
     try {
-        $contents = file_get_contents($url);
+        $contents = file_get_contents($url, false, $context);
     } finally {
         restore_error_handler();
     }
@@ -58,6 +101,11 @@ function fetchPage(string $url): PageData
         if (preg_match('#HTTP/\d+\.\d+\s+429\s+#', $headers[0] ?? '')) {
             throw new RuntimeException("Rate limit exceeded when fetching {$url}");
         }
+        if ($token === '' && preg_match('#HTTP/\d+\.\d+\s+403\s+#', $headers[0] ?? '')) {
+            // Docker Hub doesn't let anonymous users paginate beyond the first 1000 items
+            throw new AnonymousPaginationLimitException("Anonymous pagination limit reached when fetching {$url}");
+        }
+        throw new RuntimeException("Failed to fetch {$url}. HTTP response headers: " . implode("\n", $headers ?? []));
     }
     $data = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
 
@@ -73,7 +121,16 @@ function listItems(): Generator
     $parsedItems = 0;
     $totalItems = null;
     do {
-        $page = fetchPage($url);
+        try {
+            $page = fetchPage($url);
+        } catch (AnonymousPaginationLimitException $x) {
+            if ($parsedItems === 0) {
+                throw $x;
+            }
+            echo "WARNING: {$x->getMessage()}\nOlder tags won't be inspected: set the DOCKERHUB_TOKEN environment variable to inspect them.\n";
+
+            return;
+        }
         foreach ($page->results as $item) {
             yield $item;
         }
