@@ -1,9 +1,9 @@
 {
-    "last-updated": "2026-07-02T10:31:57+00:00",
+    "last-updated": "2026-09-17T13:40:42+00:00",
     "images": {
         "8.4": {
             "isRC": false,
-            "maxPHPVersion": "8.4.22",
+            "maxPHPVersion": "8.4.25",
             "os": [
                 {
                     "id": "trixie",
@@ -16,7 +16,8 @@
                     "id": "alpine3.23"
                 },
                 {
-                    "id": "alpine3.22"
+                    "id": "alpine3.22",
+                    "phpVersion": "8.4.22"
                 },
                 {
                     "id": "alpine3.21",
@@ -42,10 +43,11 @@
         },
         "8.5": {
             "isRC": false,
-            "maxPHPVersion": "8.5.7",
+            "maxPHPVersion": "8.5.10",
             "os": [
                 {
-                    "id": "alpine3.22"
+                    "id": "alpine3.22",
+                    "phpVersion": "8.5.7"
                 },
                 {
                     "id": "alpine3.23"
@@ -69,7 +71,7 @@
         },
         "8.2": {
             "isRC": false,
-            "maxPHPVersion": "8.2.31",
+            "maxPHPVersion": "8.2.33",
             "os": [
                 {
                     "id": "bookworm"
@@ -78,7 +80,8 @@
                     "id": "alpine3.23"
                 },
                 {
-                    "id": "alpine3.22"
+                    "id": "alpine3.22",
+                    "phpVersion": "8.2.31"
                 },
                 {
                     "id": "trixie",
@@ -124,7 +127,7 @@
         },
         "8.3": {
             "isRC": false,
-            "maxPHPVersion": "8.3.31",
+            "maxPHPVersion": "8.3.33",
             "os": [
                 {
                     "id": "bookworm"
@@ -137,7 +140,8 @@
                     "id": "alpine3.23"
                 },
                 {
-                    "id": "alpine3.22"
+                    "id": "alpine3.22",
+                    "phpVersion": "8.3.31"
                 },
                 {
                     "id": "alpine3.21",
@@ -484,6 +488,26 @@
                 {
                     "id": "jessie",
                     "default": true
+                }
+            ]
+        },
+        "8.6": {
+            "isRC": true,
+            "maxPHPVersion": "8.6.0",
+            "os": [
+                {
+                    "id": "trixie",
+                    "default": true
+                },
+                {
+                    "id": "bookworm"
+                },
+                {
+                    "id": "alpine3.24",
+                    "default": true
+                },
+                {
+                    "id": "alpine3.23"
                 }
             ]
         }
