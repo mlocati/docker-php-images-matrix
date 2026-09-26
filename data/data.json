@@ -1,5 +1,5 @@
 {
-    "last-changes": "2026-09-25T13:10:16+00:00",
+    "last-changes": "2026-09-26T12:37:02+00:00",
     "images": {
         "8.4": {
             "isRC": false,
@@ -127,7 +127,7 @@
         },
         "8.3": {
             "isRC": false,
-            "maxPHPVersion": "8.3.33",
+            "maxPHPVersion": "8.3.35",
             "os": [
                 {
                     "id": "bookworm"
